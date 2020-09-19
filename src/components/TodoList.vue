@@ -18,13 +18,13 @@
         </div>
         <div class="todo__task--new">
           <ul class="todo__list">
-            <li v-for="task in tasks" :key="task" class="todo__task">
-              <span class="todo__content">
-                <input type="checkbox" name="check" @click="task.done = !task.done" />
-                <p :class="{strike: task.done}">{{ task.text }}</p>
-              </span>
-              <img src="../assets/trash.svg" @click="deleteTask(task.id)" />
-            </li>
+            <li
+              is="todo-item"
+              v-for="task in tasks"
+              :key="task.id"
+              :task="task"
+              @delete-task="deleteTask($event)"
+            />
           </ul>
         </div>
       </div>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import TodoItem from "./TodoItem.vue";
 export default {
   data() {
     return {
@@ -43,7 +44,9 @@ export default {
       ],
     };
   },
-  components: {},
+  components: {
+    TodoItem,
+  },
   methods: {
     addTask() {
       if (this.currentTask) {
@@ -64,81 +67,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" >
-.strike {
-  text-decoration: line-through;
-}
-img {
-  cursor: pointer;
-}
-.todo {
-  display: flex;
-  min-height: 330px;
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  &__header {
-    height: 20px;
-    background-color: #c792df;
-    padding: 10px 15px;
-    border-radius: 6px 6px 0 0;
-    width: 300px;
-  }
-  &__title {
-    font-size: 16px;
-    color: #fff;
-    text-align: left;
-  }
-  &__wrapper {
-    background-color: #fff;
-    box-shadow: 12px 12px 20px 1px rgba(50, 50, 65, 0.2);
-    max-width: 330px;
-    min-height: 350px;
-  }
-  &__list {
-    padding: 0;
-    margin: 0;
-  }
-  &__task--add {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px;
-    padding-bottom: 0;
-    border-bottom: 1px solid #efefef;
-    input {
-      padding: 5px;
-      border: none;
-      margin-bottom: 10px;
-    }
-    button {
-      border: none;
-      background: none;
-      padding: 0;
-      img {
-        width: 15px;
-        height: 15px;
-      }
-    }
-  }
-  &__content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    p {
-      margin-left: 10px;
-    }
-  }
-  &__task {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 15px;
-    padding-bottom: 0;
-    border-bottom: 1px solid #efefef;
-
-    img {
-      width: 15px;
-      height: 15px;
-    }
-  }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 </style>
